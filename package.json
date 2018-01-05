@@ -7,14 +7,18 @@
     "start": "node index.js",
     "start:watch": "nodemon",
     "prestart:prod": "tsc",
-    "start:prod": "node dist/server.js"
+    "start:prod": "node dist/server.js",
+    "test": "./node_modules/.bin/jasmine-ts JASMINE_CONFIG_PATH=src/specs/jasmine.json"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.10",
     "typescript": "^2.5.2"
   },
   "devDependencies": {
+    "@types/jasmine": "^2.8.3",
     "@types/node": "^8.0.28",
+    "jasmine": "^2.8.0",
+    "jasmine-ts": "^0.2.1",
     "nodemon": "^1.12.1",
     "ts-node": "^3.3.0"
   }

@@ -1,0 +1,9 @@
+{
+    "spec_dir": "src/specs",
+    "spec_files": [
+        "**/*Spec.ts"
+    ],
+    "helpers": [
+        "../../../node_modules/ts-node/register.js"
+    ]
+}
