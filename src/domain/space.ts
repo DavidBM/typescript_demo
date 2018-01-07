@@ -59,10 +59,21 @@ export default class Space {
 		var fleetsNotJumping = new Set();
 
 		for (let fleet of userFleetsToMove) {
-			var originGate = this.canFleetPerformJumpAndGetFleetGate(fleet, gate);
+			if(!fleet.canJump()){
+				fleetsNotJumping.add([fleet, new FleetNotReadyToJump()]);
+				continue;
+			}
 
-			if(originGate instanceof Error){
-				return fleetsNotJumping.add([fleet, originGate]);
+			var originGate = this.findGateOfFleet(fleet);
+
+			if(!originGate){
+				fleetsNotJumping.add([fleet, new FleetNotInSpace()]);
+				continue;
+			}
+
+			if(!this.areJumpGatesConnected(originGate, destinationGate)) {
+				fleetsNotJumping.add([fleet, new GatesNotConnected()]);
+				continue;
 			}
 
 			fleet.setJumpTime();
@@ -77,22 +88,14 @@ export default class Space {
 		return fleetsNotJumping;
 	}
 
-	canFleetPerformJumpAndGetFleetGate(fleet: Fleet, destinationGate: JumpGate): JumpGate | Error {
-		if(!fleet.canJump()) {
-			return new FleetInCooldown();
-		}
+	getFleetGate(fleet: Fleet): JumpGate | Error {
+		var fleetGate = this.findGateOfFleet(fleet);
 
-		var originGate = this.findGateOfFleet(fleet);
-
-		if(!originGate) {
+		if(!fleetGate) {
 			return new FleetNotInSpace();
 		}
 
-		if(!this.areJumpGatesConnected(originGate, destinationGate)) {
-			return new GatesNotConnected();
-		}
-
-		return originGate;
+		return fleetGate;
 	}
 
 	findGateOfFleet(fleet: Fleet): JumpGate | undefined {
@@ -134,10 +137,10 @@ export class GatesNotConnected extends Error {
 	}
 };
 
-export class FleetInCooldown extends Error {
+export class FleetNotReadyToJump extends Error {
 	constructor(message: string = '') {
 		super();
-		Error.captureStackTrace(this, FleetInCooldown);
+		Error.captureStackTrace(this, FleetNotReadyToJump);
 		this.message = "The fleet is not ready ro Jump. " + message;
 	}
 };

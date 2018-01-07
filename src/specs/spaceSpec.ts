@@ -1,4 +1,4 @@
-import Space, { GatesNotConnected, FleetInCooldown } from '../domain/space';
+import Space, { GatesNotConnected, FleetNotReadyToJump } from '../domain/space';
 import Connection, { SelfReferencedConnection} from '../domain/connection';
 import JumpGate from '../domain/jumpGate';
 import User from '../domain/user';
@@ -120,7 +120,7 @@ describe("space", () => {
 		var {user, fleet, userFleets} = createUserFleets(JUMP_DELAY_MILISECONDS);
 
 		var expectedResult: Set<[Fleet, Error]> = new Set();
-		expectedResult.add([fleet, new FleetInCooldown()]);
+		expectedResult.add([fleet, new FleetNotReadyToJump()]);
 
 		gates[0].addFleet(userFleets);
 
