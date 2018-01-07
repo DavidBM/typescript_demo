@@ -16,11 +16,16 @@ describe('jump gates', () => {
 
 	it("should contain fleets", () => {
 		var user = new User();
-		var fleet = new UserFleetsCollection(user);
+		var userFleet = new UserFleetsCollection(user);
+		var fleet = new Fleet();
 
 		expect(gate.countFleets()).toBe(0);
 
-		gate.addFleet(fleet);
+		gate.addFleet(userFleet);
+
+		expect(gate.countFleets()).toBe(0);
+
+		userFleet.addFleet(fleet);
 
 		expect(gate.countFleets()).toBe(1);
 	});

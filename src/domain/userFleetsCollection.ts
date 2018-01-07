@@ -14,8 +14,41 @@ export default class UserFleetsCollection {
 		this.fleets.add(fleet);
 	}
 
-	countFleets(): Number {
+	getUser(): User {
+		return User.fromUser(this.user);
+	}
+
+	isEmpty() {
+		return this.fleets.size === 0;
+	}
+
+	removeFleet(fleet: Fleet): void {
+		var foundFleets: Set<Fleet> = new Set();
+
+		this.fleets.forEach(userFleet => {
+			if(userFleet.isSame(fleet)){
+				foundFleets.add(userFleet);
+			}
+		});
+
+		foundFleets.forEach(fleet => this.fleets.delete(fleet));
+	}
+
+	countFleets(): number {
 		return this.fleets.size;
+	}
+
+	iterateFleets(fn: (fleet: Fleet) => void): void {
+		this.fleets.forEach(fn);
+	}
+
+	[Symbol.iterator](): IterableIterator<Fleet> { 
+		return this.fleets.values(); 
+	}
+
+	hasFleet(fleet: Fleet): boolean {
+		return Array.from(this.fleets.values())
+		.some(ownFleet => ownFleet.isSame(fleet));
 	}
 
 	isUserFleet(fleet: Fleet): boolean {

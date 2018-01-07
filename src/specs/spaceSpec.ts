@@ -1,6 +1,9 @@
 import Space from '../domain/space';
 import Connection, { SelfReferencedConnection } from '../domain/connection';
 import JumpGate from '../domain/jumpGate';
+import User from '../domain/user';
+import Fleet from '../domain/fleet';
+import UserFleets from '../domain/userFleetsCollection';
 
 describe("space", () => {
 	var space: Space;
@@ -66,4 +69,61 @@ describe("space", () => {
 		expect(jumpGates.has(gateC)).toBeTruthy();
 		expect(jumpGates.size).toBe(2);
 	});
+
+	it("should move a fleet to another jump gate", () => {
+		var {gates, connections} = fillSpaceWith3Nodes(space);
+		var {user, fleet, userFleets} = createUserFleets();
+
+		gates[0].addFleet(userFleets);
+
+		expect(gates[0].countFleets()).toBe(1);
+		expect(gates[1].countFleets()).toBe(0);
+		expect(gates[2].countFleets()).toBe(0);
+
+		expect(space.jumpUserFleets(gates[1], joinUserAndFleet(user, fleet))).toEqual(new Set());
+
+		expect(gates[0].countFleets()).toBe(0);
+		expect(gates[1].countFleets()).toBe(1);
+		expect(gates[2].countFleets()).toBe(0);
+
+		expect(space.jumpUserFleets(gates[2], joinUserAndFleet(user, fleet))).toEqual(new Set());
+
+		expect(gates[0].countFleets()).toBe(0);
+		expect(gates[1].countFleets()).toBe(0);
+		expect(gates[2].countFleets()).toBe(1);
+	});
 });
+
+function fillSpaceWith3Nodes(space: Space): {gates: Array<JumpGate>, connections: Array<Connection>} {
+	var gateA = new JumpGate();
+	var gateB = new JumpGate();
+	var gateC = new JumpGate();
+
+	var connectionAB = new Connection(gateA, gateB);
+	var connectionBC = new Connection(gateB, gateC);
+
+	space.addConnection(connectionAB);
+	space.addConnection(connectionBC);
+
+	space.addJumpGate(gateA);
+	space.addJumpGate(gateB);
+	space.addJumpGate(gateC);
+
+	return {gates: [gateA, gateB, gateC], connections: [connectionAB, connectionBC]};
+}
+
+function createUserFleets(): {user: User, fleet: Fleet, userFleets: UserFleets} {
+		var user = new User();
+		var fleet = new Fleet();
+		var userFleets = new UserFleets(user);
+		
+		userFleets.addFleet(fleet);
+
+		return {user, fleet, userFleets};
+}
+
+function joinUserAndFleet(user: User, fleet: Fleet): UserFleets {
+	var userFleets = new UserFleets(user);
+	userFleets.addFleet(fleet);
+	return userFleets;
+}
