@@ -1,5 +1,5 @@
-import Space from '../domain/space';
-import Connection, { SelfReferencedConnection } from '../domain/connection';
+import Space, { GatesNotConnected, FleetInCooldown } from '../domain/space';
+import Connection, { SelfReferencedConnection} from '../domain/connection';
 import JumpGate from '../domain/jumpGate';
 import User from '../domain/user';
 import Fleet from '../domain/fleet';
@@ -92,6 +92,50 @@ describe("space", () => {
 		expect(gates[1].countFleets()).toBe(0);
 		expect(gates[2].countFleets()).toBe(1);
 	});
+
+	it("should not move a fleet to a non connected gate", () => {
+		var {gates, connections} = fillSpaceWith3Nodes(space);
+		var {user, fleet, userFleets} = createUserFleets();
+
+		var expectedResult: Set<[Fleet, Error]> = new Set();
+		expectedResult.add([fleet, new GatesNotConnected()]);
+
+		gates[0].addFleet(userFleets);
+
+		expect(gates[0].countFleets()).toBe(1);
+		expect(gates[1].countFleets()).toBe(0);
+		expect(gates[2].countFleets()).toBe(0);
+
+		expect(space.jumpUserFleets(gates[2], joinUserAndFleet(user, fleet))).toEqual(expectedResult);
+
+		expect(gates[0].countFleets()).toBe(1);
+		expect(gates[1].countFleets()).toBe(0);
+		expect(gates[2].countFleets()).toBe(0);
+	});
+
+	it("should not move a fleet that just jump", () => {
+		var JUMP_DELAY_MILISECONDS = 30 * 1000;
+
+		var {gates, connections} = fillSpaceWith3Nodes(space);
+		var {user, fleet, userFleets} = createUserFleets(JUMP_DELAY_MILISECONDS);
+
+		var expectedResult: Set<[Fleet, Error]> = new Set();
+		expectedResult.add([fleet, new FleetInCooldown()]);
+
+		gates[0].addFleet(userFleets);
+
+		fleet.setJumpTime();
+
+		expect(gates[0].countFleets()).toBe(1);
+		expect(gates[1].countFleets()).toBe(0);
+		expect(gates[2].countFleets()).toBe(0);
+
+		expect(space.jumpUserFleets(gates[1], joinUserAndFleet(user, fleet))).toEqual(expectedResult);
+
+		expect(gates[0].countFleets()).toBe(1);
+		expect(gates[1].countFleets()).toBe(0);
+		expect(gates[2].countFleets()).toBe(0);
+	});
 });
 
 function fillSpaceWith3Nodes(space: Space): {gates: Array<JumpGate>, connections: Array<Connection>} {
@@ -112,9 +156,9 @@ function fillSpaceWith3Nodes(space: Space): {gates: Array<JumpGate>, connections
 	return {gates: [gateA, gateB, gateC], connections: [connectionAB, connectionBC]};
 }
 
-function createUserFleets(): {user: User, fleet: Fleet, userFleets: UserFleets} {
+function createUserFleets(jumpDelay: number = 0): {user: User, fleet: Fleet, userFleets: UserFleets} {
 		var user = new User();
-		var fleet = new Fleet();
+		var fleet = new Fleet(jumpDelay);
 		var userFleets = new UserFleets(user);
 		
 		userFleets.addFleet(fleet);

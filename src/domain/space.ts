@@ -60,10 +60,12 @@ export default class Space {
 
 		for (let fleet of userFleetsToMove) {
 			var originGate = this.canFleetPerformJumpAndGetFleetGate(fleet, gate);
-			
+
 			if(originGate instanceof Error){
 				return fleetsNotJumping.add([fleet, originGate]);
 			}
+
+			fleet.setJumpTime();
 
 			var userFleetToMove = new UserFleet(user);
 			userFleetToMove.addFleet(fleet);
@@ -76,13 +78,17 @@ export default class Space {
 	}
 
 	canFleetPerformJumpAndGetFleetGate(fleet: Fleet, destinationGate: JumpGate): JumpGate | Error {
+		if(!fleet.canJump()) {
+			return new FleetInCooldown();
+		}
+
 		var originGate = this.findGateOfFleet(fleet);
 
 		if(!originGate) {
 			return new FleetNotInSpace();
 		}
 
-		if(!this.areJumpGatesConnected(originGate, originGate)) {
+		if(!this.areJumpGatesConnected(originGate, destinationGate)) {
 			return new GatesNotConnected();
 		}
 
@@ -95,15 +101,43 @@ export default class Space {
 
 	areJumpGatesConnected(gateA: JumpGate, gateB: JumpGate): boolean {
 		return Array.from(this.connections.values()).some(connection => {
-			if(!connection.hasJumpGate(gateA) || !connection.hasJumpGate(gateB)) {
-				return false;
+			if(connection.hasJumpGate(gateA) && connection.hasJumpGate(gateB)) {
+				return true;
 			}
 
-			return true;
+			return false;
 		});
 	}
 }
 
-export class GateNotInSpace extends Error {};
-export class FleetNotInSpace extends Error {};
-export class GatesNotConnected extends Error {};
+export class GateNotInSpace extends Error {
+	constructor(message: string = '') {
+		super();
+		Error.captureStackTrace(this, GateNotInSpace);
+		this.message = "The gate is not in the space you are using. " + message;
+	}
+};
+
+export class FleetNotInSpace extends Error {
+	constructor(message: string = '') {
+		super();
+		Error.captureStackTrace(this, FleetNotInSpace);
+		this.message = "The fleet is not in the space you are using. " + message;
+	}
+};
+
+export class GatesNotConnected extends Error {
+	constructor(message: string = '') {
+		super();
+		Error.captureStackTrace(this, GatesNotConnected);
+		this.message = "The gate are not connected. " + message;
+	}
+};
+
+export class FleetInCooldown extends Error {
+	constructor(message: string = '') {
+		super();
+		Error.captureStackTrace(this, FleetInCooldown);
+		this.message = "The fleet is not ready ro Jump. " + message;
+	}
+};
