@@ -2,6 +2,7 @@ import JumpGate from './jumpGate';
 import Connection, {SelfReferencedConnection} from './connection';
 import UserFleet from './userFleetsCollection';
 import Fleet from './fleet';
+import User from './user';
 
 export default class Space {
 	gates: Set<JumpGate>;
@@ -59,33 +60,38 @@ export default class Space {
 		var fleetsNotJumping = new Set();
 
 		for (let fleet of userFleetsToMove) {
-			if(!fleet.canJump()){
-				fleetsNotJumping.add([fleet, new FleetNotReadyToJump()]);
-				continue;
+			var error = this.jumpFleet(fleet, destinationGate, user);
+
+			if(error) {
+				fleetsNotJumping.add([fleet, error]);
 			}
-
-			var originGate = this.findGateOfFleet(fleet);
-
-			if(!originGate){
-				fleetsNotJumping.add([fleet, new FleetNotInSpace()]);
-				continue;
-			}
-
-			if(!this.areJumpGatesConnected(originGate, destinationGate)) {
-				fleetsNotJumping.add([fleet, new GatesNotConnected()]);
-				continue;
-			}
-
-			fleet.setJumpTime();
-
-			var userFleetToMove = new UserFleet(user);
-			userFleetToMove.addFleet(fleet);
-
-			originGate.removeFleet(userFleetToMove);
-			destinationGate.addFleet(userFleetToMove);
 		}
 
 		return fleetsNotJumping;
+	}
+
+	jumpFleet(fleet: Fleet, destinationGate: JumpGate, user: User): Error | undefined {
+		if(!fleet.canJump()){
+			return new FleetNotReadyToJump();
+		}
+
+		var originGate = this.findGateOfFleet(fleet);
+
+		if(!originGate){
+			return new FleetNotInSpace();
+		}
+
+		if(!this.areJumpGatesConnected(originGate, destinationGate)) {
+			return new GatesNotConnected();
+		}
+
+		fleet.setJumpTime();
+
+		var userFleetToMove = new UserFleet(user);
+		userFleetToMove.addFleet(fleet);
+
+		originGate.removeFleet(userFleetToMove);
+		destinationGate.addFleet(userFleetToMove);	
 	}
 
 	getFleetGate(fleet: Fleet): JumpGate | Error {
