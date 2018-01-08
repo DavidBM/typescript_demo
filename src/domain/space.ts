@@ -60,7 +60,7 @@ export default class Space {
 		var fleetsNotJumping = new Set();
 
 		for (let fleet of userFleetsToMove) {
-			var error = this.jumpFleet(fleet, destinationGate, user);
+			var error = this._jumpFleet(fleet, destinationGate, user);
 
 			if(error) {
 				fleetsNotJumping.add([fleet, error]);
@@ -70,15 +70,15 @@ export default class Space {
 		return fleetsNotJumping;
 	}
 
-	jumpFleet(fleet: Fleet, destinationGate: JumpGate, user: User): Error | undefined {
+	_jumpFleet(fleet: Fleet, destinationGate: JumpGate, user: User): Error | undefined {
 		if(!fleet.canJump()){
 			return new FleetNotReadyToJump();
 		}
 
-		var originGate = this.findGateOfFleet(fleet);
+		var originGate = this.getFleetGate(fleet);
 
-		if(!originGate){
-			return new FleetNotInSpace();
+		if(originGate instanceof Error){
+			return originGate;
 		}
 
 		if(!this.areJumpGatesConnected(originGate, destinationGate)) {
@@ -95,17 +95,13 @@ export default class Space {
 	}
 
 	getFleetGate(fleet: Fleet): JumpGate | Error {
-		var fleetGate = this.findGateOfFleet(fleet);
+		var fleetGate = Array.from(this.gates.values()).find(gate => gate.hasFleet(fleet));
 
 		if(!fleetGate) {
 			return new FleetNotInSpace();
 		}
 
 		return fleetGate;
-	}
-
-	findGateOfFleet(fleet: Fleet): JumpGate | undefined {
-		return Array.from(this.gates.values()).find(gate => gate.hasFleet(fleet));
 	}
 
 	areJumpGatesConnected(gateA: JumpGate, gateB: JumpGate): boolean {
