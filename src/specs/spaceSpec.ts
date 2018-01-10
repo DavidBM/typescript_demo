@@ -4,6 +4,14 @@ import JumpGate from '../domain/jumpGate';
 import User from '../domain/user';
 import Fleet from '../domain/fleet';
 import UserFleets from '../domain/userFleetsCollection';
+import Id from '../domain/helpers/Id';
+
+var ID_1 = new Id(1);
+var ID_2 = new Id(2);
+var ID_3 = new Id(3);
+var ID_4 = new Id(4);
+var ID_5 = new Id(5);
+var USER_ID = new Id(6);
 
 describe("space", () => {
 	var space: Space;
@@ -17,7 +25,7 @@ describe("space", () => {
 	});
 
 	it("should contain JumpGates", () => {
-		var gate = new JumpGate();
+		var gate = new JumpGate(ID_1);
 
 		expect(space.countJumpGates()).toBe(0);
 
@@ -27,9 +35,9 @@ describe("space", () => {
 	});
 
 	it("should contain Connections", () => {
-		var gateA = new JumpGate();
-		var gateB = new JumpGate();
-		var connection = new Connection(gateA, gateB);
+		var gateA = new JumpGate(ID_1);
+		var gateB = new JumpGate(ID_2);
+		var connection = new Connection(ID_3, gateA, gateB);
 
 		expect(space.countConnections()).toBe(0);
 
@@ -39,9 +47,9 @@ describe("space", () => {
 	});
 
 	it("should return the gates in the space", () => {
-		var gateA = new JumpGate();
-		var gateB = new JumpGate();
-		var gateC = new JumpGate();
+		var gateA = new JumpGate(ID_1);
+		var gateB = new JumpGate(ID_2);
+		var gateC = new JumpGate(ID_3);
 		space.addJumpGate(gateA);
 		space.addJumpGate(gateB);
 
@@ -53,12 +61,12 @@ describe("space", () => {
 	});
 
 	it("it can return the JumpGates connected to a JumpGate", () => {
-		var gateA = new JumpGate();
-		var gateB = new JumpGate();
-		var gateC = new JumpGate();
+		var gateA = new JumpGate(ID_1);
+		var gateB = new JumpGate(ID_2);
+		var gateC = new JumpGate(ID_3);
 
-		var connectionAB = new Connection(gateA, gateB);
-		var connectionBC = new Connection(gateB, gateC);
+		var connectionAB = new Connection(ID_4, gateA, gateB);
+		var connectionBC = new Connection(ID_5, gateB, gateC);
 
 		space.addConnection(connectionAB);
 		space.addConnection(connectionBC);
@@ -139,12 +147,12 @@ describe("space", () => {
 });
 
 function fillSpaceWith3Nodes(space: Space): {gates: Array<JumpGate>, connections: Array<Connection>} {
-	var gateA = new JumpGate();
-	var gateB = new JumpGate();
-	var gateC = new JumpGate();
+	var gateA = new JumpGate(ID_1);
+	var gateB = new JumpGate(ID_2);
+	var gateC = new JumpGate(ID_3);
 
-	var connectionAB = new Connection(gateA, gateB);
-	var connectionBC = new Connection(gateB, gateC);
+	var connectionAB = new Connection(ID_4, gateA, gateB);
+	var connectionBC = new Connection(ID_5, gateB, gateC);
 
 	space.addConnection(connectionAB);
 	space.addConnection(connectionBC);
@@ -157,8 +165,8 @@ function fillSpaceWith3Nodes(space: Space): {gates: Array<JumpGate>, connections
 }
 
 function createUserFleets(jumpDelay: number = 0): {user: User, fleet: Fleet, userFleets: UserFleets} {
-		var user = new User();
-		var fleet = new Fleet(jumpDelay);
+		var user = new User(USER_ID);
+		var fleet = new Fleet(ID_1, jumpDelay);
 		var userFleets = new UserFleets(user);
 		
 		userFleets.addFleet(fleet);

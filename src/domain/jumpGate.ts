@@ -1,41 +1,59 @@
+import ComparableInterface from './interfaces/comparable';
 import UserFleets from './userFleetsCollection';
 import User from './user';
 import Fleet from './fleet';
+import Id from './helpers/Id';
+import Collection from './helpers/Collection';
 
-export default class JumpGate {
-	userFleets: Set<UserFleets>;
+export default class JumpGate implements ComparableInterface {
+	userFleets: Collection<UserFleets>;
+	id: Id;
 
-	constructor() {
-		this.userFleets = new Set();
+	constructor(id: Id) {
+		this.userFleets = new Collection();
+		this.id = id;
 	}
 
 	isSame(gate: JumpGate): boolean {
 		return this === gate;
 	}
 
+	getId(): Id {
+		return this.id;
+	}
+
 	addFleet(userFleets: UserFleets): void {
+		var foundUserFleets = this.getUserFleets(userFleets.getUser());
+
+		if(foundUserFleets) {
+			for(let fleet of userFleets) {
+				foundUserFleets.addFleet(fleet);
+			}
+
+			return;
+		}
+
 		this.userFleets.add(userFleets);
 	}
 
 	removeFleet(userFleets: UserFleets): void {
 		var userFleetsOfGate = this.getUserFleets(userFleets.getUser());
 
-		userFleetsOfGate.forEach(userFleetOfGate => {
-			userFleets.iterateFleets(fleet => {
-				userFleetOfGate.removeFleet(fleet);
+		if(!userFleetsOfGate) {
+			return;
+		}
 
-				if(userFleetOfGate.isEmpty()) {
-					this.userFleets.delete(userFleetOfGate);
-				}
-			})
-		});
+		for (let fleet of userFleets) {
+			userFleetsOfGate.removeFleet(fleet);
+
+			if(userFleetsOfGate.isEmpty()) {
+				this.userFleets.delete(userFleetsOfGate);
+			}
+		}
 	}
 
-	getUserFleets(user: User): Set<UserFleets> {
-		var userFleets = Array.from(this.userFleets.values())
-		.filter(userFleets => userFleets.isUser(user));
-
-		return new Set(userFleets);
+	getUserFleets(user: User): UserFleets | undefined {
+		return this.userFleets.find((ownUserFleets) => user.isSame(ownUserFleets.getUser()));
 	}
 
 	countFleets(): number {
@@ -54,9 +72,9 @@ export default class JumpGate {
 
 	getFleetsInUserView(user: User): Set<UserFleets> | NoFleetsOfUserInJumpGate {
 		var userFleets = Array.from(this.userFleets.values())
-		.filter(userFleets => userFleets.isUser(user));
+		.some(userFleets => userFleets.isUser(user));
 
-		if(userFleets.length <= 0){
+		if(!userFleets){
 			return new NoFleetsOfUserInJumpGate();
 		}
 

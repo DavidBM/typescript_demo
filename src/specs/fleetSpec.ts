@@ -1,10 +1,14 @@
+
 import Fleet from '../domain/fleet';
+import Id from '../domain/helpers/Id';
 
 describe("fleet", () => {
 	var fleet: Fleet;
+	var id: Id;
 
 	beforeEach(() => {
-		fleet = new Fleet();
+		id = new Id("test");
+		fleet = new Fleet(id);
 	});
 
 	it("should exist", () => {

@@ -1,13 +1,28 @@
 import User from './user';
 import Fleet from './fleet';
+import Collection from './helpers/Collection';
+import Comparable from './interfaces/comparable';
 
-export default class UserFleetsCollection {
+export default class UserFleetsCollection implements Comparable, Iterable<Fleet> {
 	user: User;
-	fleets: Set<Fleet>;
+	fleets: Collection<Fleet>;
 
 	constructor(user: User) {
 		this.user = user;
-		this.fleets = new Set();
+		this.fleets = new Collection();
+	}
+
+	isSame(userFleet: UserFleetsCollection): boolean {
+		var sameUser = userFleet.getUser().isSame(this.getUser());
+
+		if(!sameUser) {
+			return false; 
+		}
+
+		var containAllFleet = this.fleets.every((fleet) => userFleet.hasFleet(fleet));
+		var sameQuantityOfFleets = this.fleets.size === userFleet.countFleets();
+
+		return containAllFleet && sameQuantityOfFleets;
 	}
 
 	addFleet(fleet: Fleet): void {
@@ -18,7 +33,7 @@ export default class UserFleetsCollection {
 		return User.fromUser(this.user);
 	}
 
-	isEmpty() {
+	isEmpty(): boolean {
 		return this.fleets.size === 0;
 	}
 
