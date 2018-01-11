@@ -15,7 +15,7 @@ export default class JumpGate implements IdentificableInterface {
 	}
 
 	isSame(gate: JumpGate): boolean {
-		return this === gate;
+		return this.getId() === gate.getId();
 	}
 
 	getId(): Id {

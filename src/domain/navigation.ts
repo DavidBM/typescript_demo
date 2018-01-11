@@ -12,7 +12,7 @@ export default class Navigation {
 	}
 
 	jumpUserFleets(gate: JumpGate, userFleetsToMove: UserFleet): Set<[Fleet, Error]> | GateNotInSpace {
-		var destinationGate = this.space.findJumpGate(spaceGate => spaceGate.isSame(gate));
+		var destinationGate = this.space.findGate(gate);
 
 		if(!destinationGate) {
 			return new GateNotInSpace();
@@ -22,11 +22,14 @@ export default class Navigation {
 		var fleetsNotJumping = new Set();
 
 		for (let fleet of userFleetsToMove) {
+			//var fleetSnapshot = fleet.clone();
 			var error = this._jumpFleet(fleet, destinationGate, user);
 
 			if(error) {
 				fleetsNotJumping.add([fleet, error]);
-			}
+			}/*else{
+				this.eventBus.emit(new FleetStartJump(fleetSnapshot, fleet));
+			}*/
 		}
 
 		return fleetsNotJumping;
@@ -53,7 +56,7 @@ export default class Navigation {
 		userFleetToMove.addFleet(fleet);
 
 		originGate.removeFleet(userFleetToMove);
-		destinationGate.addFleet(userFleetToMove);	
+		destinationGate.addFleet(userFleetToMove);
 	}
 }
 

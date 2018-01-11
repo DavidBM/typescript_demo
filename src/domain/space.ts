@@ -5,6 +5,7 @@ import Fleet from './fleet';
 import User from './user';
 import Collection from './helpers/Collection';
 
+//A repository of JumpGates and Connections
 export default class Space {
 	gates: Collection<JumpGate>;
 	connections: Collection<Connection>;
@@ -30,11 +31,8 @@ export default class Space {
 		return this.connections.size;
 	}
 
-	findJumpGate(cb: (gate: JumpGate) => boolean): JumpGate | undefined {
-		for (let gate of this.gates) {
-			if(cb(gate))
-				return gate;
-		}
+	findGate(gate: JumpGate): JumpGate | undefined {
+		return this.gates.get(gate);
 	}
 
 	getJumpGates(): Collection<JumpGate> {

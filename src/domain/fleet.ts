@@ -13,6 +13,12 @@ export default class Fleet implements IdentificableInterface{
 		this.id = id;
 	}
 
+	clone(): Fleet{
+		var fleet = new Fleet(this.id, this.jumpDelay);
+		fleet.setJumpTime(this.lastJump);
+		return fleet;
+	}
+
 	isSame(fleet: Fleet): boolean {
 		return  this.id.isSame(fleet.getId());
 	}

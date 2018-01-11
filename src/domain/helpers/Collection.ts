@@ -14,6 +14,14 @@ export default class Collection <T extends ComparableInterface> extends Set {
 		return super.add(item);
 	}
 
+	get(itemToGet: T): T | undefined {
+		for(let item of this){
+			if(item.isSame(itemToGet)){
+				return item;
+			}
+		}
+	}
+
 	has(itemToCompare: T): boolean {
 		for(let item of this){
 			if(item.isSame(itemToCompare)){
