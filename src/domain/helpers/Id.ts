@@ -12,10 +12,6 @@ export default class Id implements ComparableInterface {
 		return id.compareRawId(this.getRawId());
 	}
 
-	getId(): this {
-		return this;
-	}
-
 	getRawId(): string|number {
 		return this.id;
 	}

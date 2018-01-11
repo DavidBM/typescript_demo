@@ -1,7 +1,7 @@
+import Comparable from './interfaces/comparable';
 import User from './user';
 import Fleet from './fleet';
 import Collection from './helpers/Collection';
-import Comparable from './interfaces/comparable';
 
 export default class UserFleetsCollection implements Comparable, Iterable<Fleet> {
 	user: User;

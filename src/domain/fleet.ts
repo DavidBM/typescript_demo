@@ -1,9 +1,9 @@
-import ComparableInterface from './interfaces/comparable';
+import IdentificableInterface from './interfaces/identificable';
 import Id from './helpers/Id'
 
 var JUMP_DELAY_MILISECONDS = 30000;
 
-export default class Fleet implements ComparableInterface{
+export default class Fleet implements IdentificableInterface{
 	lastJump: Date = new Date(0);
 	id: Id;
 	jumpDelay: number = JUMP_DELAY_MILISECONDS;

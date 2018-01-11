@@ -1,7 +1,7 @@
-import ComparableInterface from './interfaces/comparable';
+import IdentificableInterface from './interfaces/identificable';
 import Id from './helpers/Id';
 
-export default class User implements ComparableInterface{
+export default class User implements IdentificableInterface{
 	id: Id;
 
 	constructor(id: Id) {

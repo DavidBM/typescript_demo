@@ -1,8 +1,8 @@
-import ComparableInterface from './interfaces/comparable';
+import IdentificableInterface from './interfaces/identificable';
 import JumpGate from './jumpGate';
 import Id from './helpers/Id';
 
-export default class Connection implements ComparableInterface {
+export default class Connection implements IdentificableInterface {
 	id: Id;
 	gateA: JumpGate;
 	gateB: JumpGate;

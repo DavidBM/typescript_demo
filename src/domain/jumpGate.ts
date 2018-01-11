@@ -1,11 +1,11 @@
-import ComparableInterface from './interfaces/comparable';
+import IdentificableInterface from './interfaces/identificable';
 import UserFleets from './userFleetsCollection';
 import User from './user';
 import Fleet from './fleet';
 import Id from './helpers/Id';
 import Collection from './helpers/Collection';
 
-export default class JumpGate implements ComparableInterface {
+export default class JumpGate implements IdentificableInterface {
 	userFleets: Collection<UserFleets>;
 	id: Id;
 

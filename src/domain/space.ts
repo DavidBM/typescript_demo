@@ -3,14 +3,15 @@ import Connection, {SelfReferencedConnection} from './connection';
 import UserFleet from './userFleetsCollection';
 import Fleet from './fleet';
 import User from './user';
+import Collection from './helpers/Collection';
 
 export default class Space {
-	gates: Set<JumpGate>;
-	connections: Set<Connection>;
+	gates: Collection<JumpGate>;
+	connections: Collection<Connection>;
 
 	constructor(){
-		this.gates = new Set();
-		this.connections = new Set();
+		this.gates = new Collection();
+		this.connections = new Collection();
 	}
 
 	addJumpGate(gate: JumpGate): void {
@@ -29,8 +30,15 @@ export default class Space {
 		return this.connections.size;
 	}
 
-	getJumpGates(): Set<JumpGate> {
-		return new Set(this.gates);
+	findJumpGate(cb: (gate: JumpGate) => boolean): JumpGate | undefined {
+		for (let gate of this.gates) {
+			if(cb(gate))
+				return gate;
+		}
+	}
+
+	getJumpGates(): Collection<JumpGate> {
+		return this.gates;
 	}
 
 	getConnectedJumpGates(gate: JumpGate): Set<JumpGate> {
@@ -47,51 +55,6 @@ export default class Space {
 		});
 
 		return connectedGates;
-	}
-
-	jumpUserFleets(gate: JumpGate, userFleetsToMove: UserFleet): Set<[Fleet, Error]> | GateNotInSpace {
-		var destinationGate = Array.from(this.gates.values()).find(spaceGate => spaceGate.isSame(gate));
-
-		if(!destinationGate) {
-			return new GateNotInSpace();
-		}
-
-		var user = userFleetsToMove.getUser();
-		var fleetsNotJumping = new Set();
-
-		for (let fleet of userFleetsToMove) {
-			var error = this._jumpFleet(fleet, destinationGate, user);
-
-			if(error) {
-				fleetsNotJumping.add([fleet, error]);
-			}
-		}
-
-		return fleetsNotJumping;
-	}
-
-	_jumpFleet(fleet: Fleet, destinationGate: JumpGate, user: User): Error | undefined {
-		if(!fleet.canJump()){
-			return new FleetNotReadyToJump();
-		}
-
-		var originGate = this.getFleetGate(fleet);
-
-		if(originGate instanceof Error){
-			return originGate;
-		}
-
-		if(!this.areJumpGatesConnected(originGate, destinationGate)) {
-			return new GatesNotConnected();
-		}
-
-		fleet.setJumpTime();
-
-		var userFleetToMove = new UserFleet(user);
-		userFleetToMove.addFleet(fleet);
-
-		originGate.removeFleet(userFleetToMove);
-		destinationGate.addFleet(userFleetToMove);	
 	}
 
 	getFleetGate(fleet: Fleet): JumpGate | Error {
@@ -115,34 +78,10 @@ export default class Space {
 	}
 }
 
-export class GateNotInSpace extends Error {
-	constructor(message: string = '') {
-		super();
-		Error.captureStackTrace(this, GateNotInSpace);
-		this.message = "The gate is not in the space you are using. " + message;
-	}
-};
-
 export class FleetNotInSpace extends Error {
 	constructor(message: string = '') {
 		super();
 		Error.captureStackTrace(this, FleetNotInSpace);
 		this.message = "The fleet is not in the space you are using. " + message;
-	}
-};
-
-export class GatesNotConnected extends Error {
-	constructor(message: string = '') {
-		super();
-		Error.captureStackTrace(this, GatesNotConnected);
-		this.message = "The gate are not connected. " + message;
-	}
-};
-
-export class FleetNotReadyToJump extends Error {
-	constructor(message: string = '') {
-		super();
-		Error.captureStackTrace(this, FleetNotReadyToJump);
-		this.message = "The fleet is not ready ro Jump. " + message;
 	}
 };
