@@ -55,14 +55,8 @@ export default class Space {
 		return connectedGates;
 	}
 
-	getFleetGate(fleet: Fleet): JumpGate | Error {
-		var fleetGate = Array.from(this.gates.values()).find(gate => gate.hasFleet(fleet));
-
-		if(!fleetGate) {
-			return new FleetNotInSpace();
-		}
-
-		return fleetGate;
+	getFleetGate(fleet: Fleet): JumpGate | undefined {
+		return this.gates.find((gate) => gate.hasFleet(fleet));
 	}
 
 	areJumpGatesConnected(gateA: JumpGate, gateB: JumpGate): boolean {
@@ -75,11 +69,3 @@ export default class Space {
 		});
 	}
 }
-
-export class FleetNotInSpace extends Error {
-	constructor(message: string = '') {
-		super();
-		Error.captureStackTrace(this, FleetNotInSpace);
-		this.message = "The fleet is not in the space you are using. " + message;
-	}
-};

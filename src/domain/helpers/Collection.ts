@@ -47,6 +47,6 @@ export default class Collection <T extends ComparableInterface> extends Set {
 				return item;
 		};
 
-		return undefined;
+		return;
 	}
 }

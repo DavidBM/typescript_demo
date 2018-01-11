@@ -28,7 +28,7 @@ export default class Navigation {
 			if(error) {
 				fleetsNotJumping.add([fleet, error]);
 			}/*else{
-				this.eventBus.emit(new FleetStartJump(fleetSnapshot, fleet));
+				this.eventBus.emit(new FleetStartJump(fleetSnapshot, fleet, destinationGate, user));
 			}*/
 		}
 
@@ -42,8 +42,8 @@ export default class Navigation {
 
 		var originGate = this.space.getFleetGate(fleet);
 
-		if(originGate instanceof Error){
-			return originGate;
+		if(!originGate){
+			return new FleetNotInSpace();
 		}
 
 		if(!this.space.areJumpGatesConnected(originGate, destinationGate)) {
@@ -80,5 +80,13 @@ export class FleetNotReadyToJump extends Error {
 		super();
 		Error.captureStackTrace(this, FleetNotReadyToJump);
 		this.message = "The fleet is not ready ro Jump. " + message;
+	}
+};
+
+export class FleetNotInSpace extends Error {
+	constructor(message: string = '') {
+		super();
+		Error.captureStackTrace(this, FleetNotInSpace);
+		this.message = "The fleet is not in the space you are using. " + message;
 	}
 };
