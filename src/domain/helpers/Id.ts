@@ -1,11 +1,16 @@
-import ComparableInterface from '../interfaces/comparable';
+import Comparable from '../interfaces/comparable';
+import Clonable from '../interfaces/clonable';
 
-export default class Id implements ComparableInterface {
+export default class Id implements Comparable, Clonable {
 
 	id: string|number;
 
 	constructor(id: string|number) {
 		this.id = id;	
+	}
+
+	clone(): Id {
+		return new Id(this.id);
 	}
 
 	isSame(id: this): boolean {

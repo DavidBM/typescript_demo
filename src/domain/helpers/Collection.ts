@@ -1,10 +1,10 @@
 import ComparableInterface from '../interfaces/comparable';
 
 
-export default class Collection <T extends ComparableInterface> extends Set {
+export default class Collection <T extends ComparableInterface> extends Set<T> {
 	
 	constructor(...items: Array<T>) {
-		super(...items);
+		super(items);
 	}
 
 	add(item: T): this {
@@ -39,6 +39,15 @@ export default class Collection <T extends ComparableInterface> extends Set {
 		};
 
 		return true;
+	}
+
+	some(cb: (item: T) => boolean): boolean {
+		for(let item of this) {
+			if(!cb(item))
+				return true;
+		};
+
+		return false;
 	}
 
 	find(cb: (item: T) => boolean): T | undefined {

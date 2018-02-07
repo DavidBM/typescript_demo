@@ -4,6 +4,7 @@
     "declaration": false,
     "noImplicitAny": true,
     "removeComments": true,
+    "inlineSources": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "noLib": false,
@@ -12,13 +13,15 @@
     "target": "es6",
     "sourceMap": true,
     "allowJs": false,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "domain/*": [
+        "src/domain/*"
+      ]
+    }
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "src/*"
   ]
 }

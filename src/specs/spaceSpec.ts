@@ -1,9 +1,9 @@
 import Space from '../domain/space';
-import Connection, { SelfReferencedConnection} from '../domain/connection';
-import JumpGate from '../domain/jumpGate';
-import User from '../domain/user';
-import Fleet from '../domain/fleet';
-import UserFleets from '../domain/userFleetsCollection';
+import Connection, { SelfReferencedConnection} from '../domain/aggregates/connection';
+import JumpGate from '../domain/aggregates/jumpGate';
+import User from '../domain/models/user';
+import Fleet from '../domain/models/fleet';
+import UserFleets from '../domain/aggregates/userFleetsCollection';
 import Id from '../domain/helpers/Id';
 
 var ID_1 = new Id(1);
