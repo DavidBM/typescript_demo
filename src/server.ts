@@ -10,7 +10,7 @@ var s = new Space();
 var j = new Jumper(s); 
 
 var jg = new JumpGate(new Id("1"));
-var jg2 = new JumpGate(new Id("1"));
+var jg2 = new JumpGate(new Id("2"));
 var c = new Connection(new Id(2), jg, jg2);
 
 var ufc = new UserFleetConnection(new User(new Id(3)));

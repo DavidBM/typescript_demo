@@ -14,4 +14,12 @@ describe("fleet", () => {
 	it("should exist", () => {
 		expect(fleet instanceof Fleet).toBeTruthy();
 	});
+
+	it("shouldn't jump is there isn't pass enough time for cooling", () => {
+		fleet.setJumpTime(new Date((new Date()).getTime() - 55000));
+		expect(fleet.canJump(new Date())).toBe(true);
+
+		fleet.setJumpTime(new Date((new Date()).getTime() - 15000));
+		expect(fleet.canJump(new Date())).toBe(false);
+	});
 });
