@@ -12,16 +12,16 @@
     "build": "./node_modules/.bin/tsc && cp ./specs/jasmine.json ./dist/specs/jasmine.json"
   },
   "dependencies": {
+    "@types/jasmine": "^2.8.3",
+    "@types/node": "^8.0.28",
     "reflect-metadata": "^0.1.10",
     "source-map-support": "^0.5.4",
-    "tsc-watch": "^1.0.17",
     "tsconfig-paths": "^3.2.0",
     "tspath": "^1.2.10",
     "typescript": "^2.8.1"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.8.3",
-    "@types/node": "^8.0.28",
+    "tsc-watch": "^1.0.17",
     "jasmine": "^2.8.0"
   }
 }

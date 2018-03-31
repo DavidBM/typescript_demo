@@ -1,5 +1,23 @@
 # Demo of typescript with some demo logic
 
+## Run
+for production: 
+
+```
+npm install --production
+npm start
+```
+
+for development:
+
+```
+npm install
+
+npm test
+npm run test:watch
+npm run start:watch
+```
+
 ## Fleet movement
 The map will be organized in a graph. The only way the player can move the fleets are through Jump Gates in the space. The gates are interconnected, forming a mesh connecting  the entire galaxy. 
 
