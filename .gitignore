@@ -5,6 +5,8 @@
 /.idea
 /.awcache
 /.vscode
+/tslint.sublime-project
+/tslint.sublime-workspace
 
 # misc
 npm-debug.log
