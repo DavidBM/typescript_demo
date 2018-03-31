@@ -1,6 +1,6 @@
 
-import Fleet from '../../domain/models/fleet';
-import Id from '../../domain/helpers/Id';
+import Fleet from '../../src/domain/models/fleet';
+import Id from '../../src/domain/helpers/Id';
 
 describe("fleet", () => {
 	var fleet: Fleet;

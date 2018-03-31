@@ -1,7 +1,7 @@
-import Identificable from '../interfaces/identificable';
-import Id from '../helpers/Id';
-import Stated from '../interfaces/stated'
-import Clonable from '../interfaces/clonable';
+import Identificable from '@interfaces/identificable';
+import Id from '@helpers/Id';
+import Stated from '@interfaces/stated'
+import Clonable from '@interfaces/clonable';
 
 var JUMP_DELAY_MILISECONDS = 30000;
 

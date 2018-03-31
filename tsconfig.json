@@ -16,12 +16,25 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "domain/*": [
+      "@domain/*": [
         "src/domain/*"
+      ],
+      "@aggregates/*": [
+        "src/domain/aggregates/*"
+      ],
+      "@interfaces/*": [
+        "src/domain/interfaces/*"
+      ],
+      "@models/*": [
+        "src/domain/models/*"
+      ],
+      "@helpers/*": [
+        "src/domain/helpers/*"
       ]
     }
   },
   "include": [
-    "src/*"
+    "src/server.ts",
+    "specs/**/*"
   ]
 }

@@ -1,5 +1,5 @@
-import Comparable from '../interfaces/comparable';
-import Clonable from '../interfaces/clonable';
+import Comparable from '@interfaces/comparable';
+import Clonable from '@interfaces/clonable';
 
 export default class Id implements Comparable, Clonable {
 

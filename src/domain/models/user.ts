@@ -1,7 +1,7 @@
-import Identificable from '../interfaces/identificable';
-import Clonable from '../interfaces/clonable';
-import Stated, {StatedInterface} from '../interfaces/stated'
-import Id from '../helpers/Id';
+import Identificable from '@interfaces/identificable';
+import Clonable from '@interfaces/clonable';
+import Stated, {StatedInterface} from '@interfaces/stated'
+import Id from '@helpers/Id';
 
 /*
 Here we did some dirty things.

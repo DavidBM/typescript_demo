@@ -1,7 +1,7 @@
-import Comparable from '../interfaces/comparable';
-import User from '../models/user';
-import Fleet from '../models/fleet';
-import Collection from '../helpers/Collection';
+import Comparable from '@interfaces/comparable';
+import User from '@models/user';
+import Fleet from '@models/fleet';
+import Collection from '@helpers/Collection';
 
 export default class UserFleetsCollection extends Collection<Fleet> implements Comparable{
 	user: User;

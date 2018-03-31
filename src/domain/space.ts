@@ -1,9 +1,9 @@
-import JumpGate from './aggregates/jumpGate';
-import Connection, {SelfReferencedConnection} from './aggregates/connection';
-import UserFleet from './aggregates/userFleetsCollection';
-import Fleet from './models/fleet';
-import User from './models/user';
-import Collection from './helpers/Collection';
+import JumpGate from '@aggregates/jumpGate';
+import Connection, {SelfReferencedConnection} from '@aggregates/connection';
+import UserFleet from '@aggregates/userFleetsCollection';
+import Fleet from '@models/fleet';
+import User from '@models/user';
+import Collection from '@helpers/Collection';
 
 //A repository of JumpGates and Connections
 export default class Space {

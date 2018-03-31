@@ -1,4 +1,4 @@
-import {JsonizableInterface, JsonizableType, Constructable} from './utils';
+import {JsonizableInterface, JsonizableType, Constructable} from '@interfaces/utils';
 
 interface EntityMetadata extends JsonizableInterface {
 	[key: string]: JsonizableInterface | JsonizableType,

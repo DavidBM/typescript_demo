@@ -1,11 +1,11 @@
-import Space from '../domain/space';
-import Navigation, { GatesNotConnected, FleetNotReadyToJump } from '../domain/jumper';
-import Connection, { SelfReferencedConnection} from '../domain/aggregates/connection';
-import JumpGate from '../domain/aggregates/jumpGate';
-import User from '../domain/models/user';
-import Fleet from '../domain/models/fleet';
-import UserFleets from '../domain/aggregates/userFleetsCollection';
-import Id from '../domain/helpers/Id';
+import Space from '../src/domain/space';
+import Navigation, { GatesNotConnected, FleetNotReadyToJump } from '../src/domain/jumper';
+import Connection, { SelfReferencedConnection} from '../src/domain/aggregates/connection';
+import JumpGate from '../src/domain/aggregates/jumpGate';
+import User from '../src/domain/models/user';
+import Fleet from '../src/domain/models/fleet';
+import UserFleets from '../src/domain/aggregates/userFleetsCollection';
+import Id from '../src/domain/helpers/Id';
 
 var ID_1 = new Id(1);
 var ID_2 = new Id(2);

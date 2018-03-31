@@ -1,8 +1,8 @@
-import JumpGate, {NoFleetsOfUserInJumpGate} from '../../domain/aggregates/jumpGate';
-import UserFleetsCollection from '../../domain/aggregates/userFleetsCollection';
-import Id from '../../domain/helpers/Id';
-import User from '../../domain/models/user';
-import Fleet from '../../domain/models/fleet';
+import JumpGate, {NoFleetsOfUserInJumpGate} from '../../src/domain/aggregates/jumpGate';
+import UserFleetsCollection from '../../src/domain/aggregates/userFleetsCollection';
+import Id from '../../src/domain/helpers/Id';
+import User from '../../src/domain/models/user';
+import Fleet from '../../src/domain/models/fleet';
 
 var JUMP_GATE_ID = new Id("jumpgate");
 var ID = new Id(1);

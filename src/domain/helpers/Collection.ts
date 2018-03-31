@@ -1,5 +1,4 @@
-import ComparableInterface from '../interfaces/comparable';
-
+import ComparableInterface from '@interfaces/comparable';
 
 export default class Collection <T extends ComparableInterface> extends Set<T> {
 	

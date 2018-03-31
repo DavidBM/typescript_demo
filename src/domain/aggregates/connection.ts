@@ -1,6 +1,6 @@
-import Identificable from '../interfaces/identificable';
-import JumpGate from '../aggregates/jumpGate';
-import Id from '../helpers/Id';
+import Identificable from '@interfaces/identificable';
+import JumpGate from '@aggregates/jumpGate';
+import Id from '@helpers/Id';
 
 export default class Connection implements Identificable {
 	id: Id;

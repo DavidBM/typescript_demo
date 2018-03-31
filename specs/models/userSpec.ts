@@ -1,5 +1,5 @@
-import User from '../../domain/models/user';
-import Id from '../../domain/helpers/Id';
+import User from '../../src/domain/models/user';
+import Id from '../../src/domain/helpers/Id';
 
 var USER_ID = new Id(1);
 

@@ -1,6 +1,6 @@
-import Connection from '../../domain/aggregates/connection';
-import JumpGate from '../../domain/aggregates/jumpGate';
-import Id from '../../domain/helpers/Id';
+import Connection from '../../src/domain/aggregates/connection';
+import JumpGate from '../../src/domain/aggregates/jumpGate';
+import Id from '../../src/domain/helpers/Id';
 
 var ID_1 = new Id(1);
 var ID_2 = new Id(2);

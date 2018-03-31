@@ -1,9 +1,9 @@
-import Identificable from '../interfaces/identificable';
-import UserFleets from './userFleetsCollection';
-import Fleet from '../models/fleet';
-import Id from '../helpers/Id';
-import Collection from '../helpers/Collection';
-import User from '../models/user';
+import Identificable from '@interfaces/identificable';
+import UserFleets from '@aggregates/userFleetsCollection';
+import Fleet from '@models/fleet';
+import Id from '@helpers/Id';
+import Collection from '@helpers/Collection';
+import User from '@models/user';
 
 export default class JumpGate implements Identificable {
 	userFleets: Collection<UserFleets>;

@@ -1,8 +1,8 @@
-import Space from 'domain/space';
-import JumpGate from 'domain/aggregates/jumpGate';
-import Fleet from 'domain/models/fleet';
-import User from 'domain/models/user';
-import UserFleet from 'domain/aggregates/userFleetsCollection';
+import Space from '@domain/space';
+import JumpGate from '@domain/aggregates/jumpGate';
+import Fleet from '@domain/models/fleet';
+import User from '@domain/models/user';
+import UserFleet from '@domain/aggregates/userFleetsCollection';
 
 export default class Navigation {
 	space: Space;

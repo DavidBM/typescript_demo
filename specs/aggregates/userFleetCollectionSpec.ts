@@ -1,7 +1,7 @@
-import UserFleetCollection from '../../domain/aggregates/userFleetsCollection';
-import User from '../../domain/models/user';
-import Fleet from '../../domain/models/fleet';
-import Id from '../../domain/helpers/Id';
+import UserFleetCollection from '../../src/domain/aggregates/userFleetsCollection';
+import User from '../../src/domain/models/user';
+import Fleet from '../../src/domain/models/fleet';
+import Id from '../../src/domain/helpers/Id';
 
 var ID_1 = new Id(1);
 var ID_2 = new Id(2);
