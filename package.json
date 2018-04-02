@@ -5,16 +5,14 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node ./start.js",
-    "start:watch": "npm run build && ./node_modules/.bin/tsc-watch --onSuccess \"node ./start.js\"",
-    "test": "npm run build:test && node ./test.js",
-    "test:watch": "npm run build:test && ./node_modules/.bin/tsc-watch --onSuccess \"node ./test.js\"",
+    "start": "./node_modules/.bin/tsc && node ./start.js",
+    "start:watch": "./node_modules/.bin/tsc && ./node_modules/.bin/tsc-watch --onSuccess \"node ./start.js\"",
+    "test": "./node_modules/.bin/jest --coverage",
+    "test:watch": "./node_modules/.bin/jest --watchAll",
     "build": "./node_modules/.bin/tsc",
-    "build:test": "./node_modules/.bin/tsc && cp ./specs/jasmine.json ./dist/specs/jasmine.json",
-    "install:clean": "rm -rf node_modules dist"
+    "clean": "rm -rf node_modules dist coverage"
   },
   "dependencies": {
-    "@types/jasmine": "^2.8.3",
     "@types/node": "^8.0.28",
     "reflect-metadata": "^0.1.10",
     "source-map-support": "^0.5.4",
@@ -23,7 +21,28 @@
     "typescript": "^2.8.1"
   },
   "devDependencies": {
-    "tsc-watch": "^1.0.17",
-    "jasmine": "^2.8.0"
+    "@types/jest": "^22.2.2",
+    "jest": "^22.4.3",
+    "tsc-watch": "^1.0.17"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/test-processor.js"
+    },
+    "testMatch": [
+      "**/specs/**/*.+(ts|tsx|js)"
+    ],
+    "moduleNameMapper": {
+      "@domain/(.*)": "<rootDir>/src/domain/$1",
+      "@aggregates/(.*)": "<rootDir>/src/domain/aggregates/$1",
+      "@interfaces/(.*)": "<rootDir>/src/domain/interfaces/$1",
+      "@models/(.*)": "<rootDir>/src/domain/models/$1",
+      "@helpers/(.*)": "<rootDir>/src/domain/helpers/$1"
+    }
   }
 }

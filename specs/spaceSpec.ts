@@ -60,7 +60,7 @@ describe("space", () => {
 		expect(jumpGatesInSpace.has(gateC)).not.toBeTruthy();
 	});
 
-	it("it can return the JumpGates connected to a JumpGate", () => {
+	it("can return the JumpGates connected to a JumpGate", () => {
 		var gateA = new JumpGate(ID_1);
 		var gateB = new JumpGate(ID_2);
 		var gateC = new JumpGate(ID_3);

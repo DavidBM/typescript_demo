@@ -14,8 +14,8 @@ for development:
 npm install
 
 npm test
-npm run test:watch
 npm run start:watch
+npm run test:watch
 ```
 
 ## Fleet movement
