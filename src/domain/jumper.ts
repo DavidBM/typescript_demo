@@ -63,7 +63,7 @@ export default class Navigation {
 export class GateNotInSpace extends Error {
 	constructor(message: string = '') {
 		super();
-		Error.captureStackTrace(this, GateNotInSpace);
+		this.stack = (new Error()).stack;
 		this.message = "The gate is not in the space you are using. " + message;
 	}
 };
@@ -71,7 +71,7 @@ export class GateNotInSpace extends Error {
 export class GatesNotConnected extends Error {
 	constructor(message: string = '') {
 		super();
-		Error.captureStackTrace(this, GatesNotConnected);
+		this.stack = (new Error()).stack;
 		this.message = "The gate are not connected. " + message;
 	}
 };
@@ -79,7 +79,7 @@ export class GatesNotConnected extends Error {
 export class FleetNotReadyToJump extends Error {
 	constructor(message: string = '') {
 		super();
-		Error.captureStackTrace(this, FleetNotReadyToJump);
+		this.stack = (new Error()).stack;
 		this.message = "The fleet is not ready ro Jump. " + message;
 	}
 };
@@ -87,7 +87,7 @@ export class FleetNotReadyToJump extends Error {
 export class FleetNotInSpace extends Error {
 	constructor(message: string = '') {
 		super();
-		Error.captureStackTrace(this, FleetNotInSpace);
+		this.stack = (new Error()).stack;
 		this.message = "The fleet is not in the space you are using. " + message;
 	}
 };
